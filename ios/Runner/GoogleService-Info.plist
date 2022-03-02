@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>254177074533-ifbrb3pg79f43okm3jubg56fmubnfmb4.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.254177074533-ifbrb3pg79f43okm3jubg56fmubnfmb4</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAjr3MAabzyYcwHK0gJPsDFJYkBZxLYqZs</string>
+	<key>GCM_SENDER_ID</key>
+	<string>254177074533</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.neuralProject</string>
+	<key>PROJECT_ID</key>
+	<string>neuroproject-882da</string>
+	<key>STORAGE_BUCKET</key>
+	<string>neuroproject-882da.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:254177074533:ios:8e9a0683c5831d3e7c158c</string>
+</dict>
+</plist>

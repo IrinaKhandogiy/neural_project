@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "254177074533",
+    "project_id": "neuroproject-882da",
+    "storage_bucket": "neuroproject-882da.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:254177074533:android:934304c360260a357c158c",
+        "android_client_info": {
+          "package_name": "com.example.neural_project"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "254177074533-m2eq8v7jgdh6i0foqgt2s2pvgat6ovib.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfkMJZwgf6RMllbqgWY5ZYCGVEJTSglok"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "254177074533-m2eq8v7jgdh6i0foqgt2s2pvgat6ovib.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
