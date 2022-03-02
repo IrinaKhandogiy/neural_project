@@ -63,6 +63,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  bool isEmailValid = true;
+  String emailError = "";
+  bool isPasswordValid = true;
+  String passwordError = "";
+
 
   @override
   void dispose() {
@@ -77,6 +82,22 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   signIn() async {
+    isPasswordValid = true;
+    isEmailValid = true;
+    if(passwordController.text.isEmpty) {
+      isPasswordValid = false;
+      passwordError = "Пароль обязателен";
+    }
+    if(emailController.text.isEmpty) {
+      isEmailValid = false;
+      emailError = "Email обязателен";
+    }
+    if(!isEmailValid || !isPasswordValid) {
+      setState(() {
+      });
+      return;
+    }
+
     try {
       UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailController.text,
@@ -90,16 +111,22 @@ class _MyHomePageState extends State<MyHomePage> {
       }
       final prefs = await SharedPreferences.getInstance();
       prefs.setString('uid', uid);
-
       await prefs.setInt('counter', 10);
     } on FirebaseAuthException catch (e) {
       print(e);
       if (e.code == 'user-not-found') {
-        print('No user found for that email.');
+        emailError = "Пользователя не существует";
+        isEmailValid = false;
       } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
+        passwordError = "Неверный пароль";
+        isPasswordValid = false;
+      } else if (e.code == 'invalid-email') {
+        emailError="Неверный формат email";
+        isEmailValid = false;
       }
     }
+    setState(() {
+    });
   }
 
   @override
@@ -123,15 +150,14 @@ class _MyHomePageState extends State<MyHomePage> {
               'Авторизация',
               style: GoogleFonts.openSans(fontSize: 24, fontWeight: FontWeight.w700, color: Colors.white)
             ),
-            Container(
-              margin: const EdgeInsets.only(top: 48),
+            CupertinoFormRow(
+              padding: const EdgeInsets.only(top: 48),
               child: CupertinoTextField(
                 textInputAction: TextInputAction.next,
-                restorationId: 'email_address_text_field',
                 controller: emailController,
                 padding: const EdgeInsets.only(top: 14, bottom: 13, left: 18),
                 placeholder: 'Адрес электронной почты',
-                clearButtonMode: OverlayVisibilityMode.editing,
+                  clearButtonMode: OverlayVisibilityMode.editing,
                 autocorrect: false,
                   decoration: const BoxDecoration(
                     color:  Color(0xFF222222),
@@ -144,11 +170,12 @@ class _MyHomePageState extends State<MyHomePage> {
                     borderRadius: BorderRadius.all(Radius.circular(8))
                   ),
                   style: GoogleFonts.openSans(fontSize: 14, fontWeight: FontWeight.w400, color: Colors.white),
-                  placeholderStyle: GoogleFonts.openSans(fontSize: 14, fontWeight: FontWeight.w400, color: Colors.white),
+                  placeholderStyle: GoogleFonts.openSans(fontSize: 14, fontWeight: FontWeight.w400, color: Colors.white)
               ),
+              error: Text(isEmailValid? "": emailError),
             ),
-            Container(
-              margin: const EdgeInsets.only(top: 34),
+            CupertinoFormRow(
+              padding: const EdgeInsets.only(top: 20),
               child: CupertinoTextField(
                 textInputAction: TextInputAction.next,
                 restorationId: 'login_password_text_field',
@@ -171,6 +198,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 style: GoogleFonts.openSans(fontSize: 14, fontWeight: FontWeight.w400, color: Colors.white),
                 placeholderStyle: GoogleFonts.openSans(fontSize: 14, fontWeight: FontWeight.w400, color: Colors.white),
               ),
+              error: Text(isPasswordValid? "": passwordError),
             ),
             Container(
               margin: const EdgeInsets.only(top: 48),
@@ -183,7 +211,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: OutlineButton(
                       onPressed: () => {signIn()},
                       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
-                    child: Text(
+                      child: Text(
                       "Войти",
                       style: GoogleFonts.openSans(fontSize: 14, fontWeight: FontWeight.w600, color: const Color(0xFF307EDE)),
                     ),
