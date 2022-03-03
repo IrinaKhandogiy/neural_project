@@ -1,6 +1,10 @@
 # neural_project
 
-A new Flutter project.
+Mobile application for testing a device that measures the activity of brain regions. 
+Uses a system of tests to determine the activities of brain regions for a specific object.
+
+### Figma layout: 
+_https://www.figma.com/file/swhGyfJGn58jSzYz1kt6wg/UP_project?node-id=0%3A1_
 
 ## Getting Started
 
