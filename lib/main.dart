@@ -3,6 +3,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:neural_project/home.dart';
+import 'package:neural_project/reset_password.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'firebase_options.dart';
@@ -23,7 +25,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Neural App',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -36,13 +38,13 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const AuthPage(title: 'Neural App | Auth'),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+class AuthPage extends StatefulWidget {
+  const AuthPage({Key? key, required this.title}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -56,10 +58,10 @@ class MyHomePage extends StatefulWidget {
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<AuthPage> createState() => _AuthPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _AuthPageState extends State<AuthPage> {
 
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
@@ -79,6 +81,14 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
+  }
+
+  void _navigateToNextScreen(BuildContext context) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage(title: 'Neural App | Home',)));
+  }
+  
+  void _navigateToResetPasswordScreen(BuildContext context) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ResetPasswordPage(title: 'Neural App | Reset Password',)));
   }
 
   signIn() async {
@@ -112,6 +122,7 @@ class _MyHomePageState extends State<MyHomePage> {
       final prefs = await SharedPreferences.getInstance();
       prefs.setString('uid', uid);
       await prefs.setInt('counter', 10);
+      _navigateToNextScreen(context);
     } on FirebaseAuthException catch (e) {
       print(e);
       if (e.code == 'user-not-found') {
@@ -122,6 +133,9 @@ class _MyHomePageState extends State<MyHomePage> {
         isPasswordValid = false;
       } else if (e.code == 'invalid-email') {
         emailError="Неверный формат email";
+        isEmailValid = false;
+      } else if (e.code == 'network-request-failed') {
+        emailError = "Отсутствует подключение к сети";
         isEmailValid = false;
       }
     }
@@ -143,7 +157,7 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Container(
-            padding: EdgeInsets.only(left: 39, right: 39),
+            padding: const EdgeInsets.only(left: 39, right: 39),
             child: Column(
             children: [
             Text(
@@ -208,24 +222,27 @@ class _MyHomePageState extends State<MyHomePage> {
                   ButtonTheme(
                       minWidth: 118,
                       height: 47,
-                      child: OutlineButton(
+                      child: OutlinedButton(
                       onPressed: () => {signIn()},
-                      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
+                        style: OutlinedButton.styleFrom(
+                          minimumSize: const Size(118, 47),
+                          side: const BorderSide(
+                              color: Color(0xFF336CB2),
+                              width: 2,
+                              style: BorderStyle.solid
+                          ),
+                          shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
+                        ),
                       child: Text(
                       "Войти",
                       style: GoogleFonts.openSans(fontSize: 14, fontWeight: FontWeight.w600, color: const Color(0xFF307EDE)),
-                    ),
-                    borderSide: const BorderSide(
-                        color: Color(0xFF336CB2),
-                        width: 2,
-                        style: BorderStyle.solid
                     ),
                   )
                   ),
                   CupertinoButton(child: Text(
                     "Восстановить пароль",
                     style: GoogleFonts.openSans(fontSize: 14, fontWeight: FontWeight.w400, color: const Color.fromRGBO(255, 255, 255, 0.75)),
-                  ), onPressed: () {},
+                  ), onPressed: () => {_navigateToResetPasswordScreen(context)},
                     padding: const EdgeInsets.only(left: 51),
                   )
                 ],
