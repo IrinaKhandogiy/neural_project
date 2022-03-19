@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:neural_project/results.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key, required this.title}) : super(key: key);
@@ -11,6 +12,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  void _navigateToResultsScreen(BuildContext context) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ResultsPage(title: 'Neural App | Results',)));
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +51,7 @@ class _HomePageState extends State<HomePage> {
                     Container(
                       margin: const EdgeInsets.only(top: 46),
                       child: OutlinedButton(
-                        onPressed: () => {},
+                        onPressed: () => {_navigateToResultsScreen(context)},
                         child:  Text("Посмотреть результаты",
                             style: GoogleFonts.openSans(fontSize: 14, fontWeight: FontWeight.w600, color: const  Color.fromRGBO(255, 255, 255, 0.73))
                         ),

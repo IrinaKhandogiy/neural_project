@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:neural_project/home.dart';
 import 'package:neural_project/reset_password.dart';
+import 'package:neural_project/results.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'firebase_options.dart';
@@ -38,7 +40,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const AuthPage(title: 'Neural App | Auth'),
+      home:  FirebaseAuth.instance.currentUser!=null? const HomePage(title:"Neural App | Home"): const AuthPage(title: 'Neural App | Auth'),
     );
   }
 }
@@ -114,14 +116,9 @@ class _AuthPageState extends State<AuthPage> {
           password: passwordController.text
       );
       var uid = userCredential.user?.uid;
-      print('ok');
-      print(uid);
       if(uid==null) {
         return;
       }
-      final prefs = await SharedPreferences.getInstance();
-      prefs.setString('uid', uid);
-      await prefs.setInt('counter', 10);
       _navigateToNextScreen(context);
     } on FirebaseAuthException catch (e) {
       print(e);

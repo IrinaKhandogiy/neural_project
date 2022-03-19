@@ -38,6 +38,7 @@ dependencies:
 
   # Add the dependencies for any other Firebase products you want to use in your app
   # For example, to use Firebase Authentication and Cloud Firestore
+  intl: ^0.17.0
   firebase_auth: ^3.3.9
   cloud_firestore: ^3.1.10
   shared_preferences: ^2.0.13
