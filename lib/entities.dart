@@ -10,11 +10,12 @@ class Result {
 }
 
 class Experiment {
+  late DocumentReference reference;
   late Timestamp date;
   late User doctor;
   late User user;
   Timestamp? resultDate;
-  Experiment(this.date, this.doctor, this.user);
+  Experiment(this.reference, this.date, this.doctor, this.user);
 }
 
 class User {

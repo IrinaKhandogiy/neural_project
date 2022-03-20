@@ -10,6 +10,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:neural_project/entities.dart' as entities;
 import 'package:collection/collection.dart';
 import 'package:intl/intl.dart';
+import 'package:neural_project/experiment_result.dart';
 
 
 class ResultsPage extends StatefulWidget {
@@ -28,6 +29,10 @@ class _ResultsState extends State<ResultsPage> {
   bool loaded = true;
   bool only_results = false;
   var selectedDate = null;
+
+  void _navigateToElementScreen(BuildContext context,  int index) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ResultDetailsPage(title: 'Neural App | Result', reference: _experiments[index].reference)));
+  }
 
   @override
   void initState()  {
@@ -49,7 +54,7 @@ class _ResultsState extends State<ResultsPage> {
         doctor = entities.User(
             value["uid"], value["first_name"], value["last_name"],
             value["second_name"]);
-        _experiments.add(entities.Experiment(element["date"], doctor, _user!));
+        _experiments.add(entities.Experiment(element.reference, element["date"], doctor, _user!));
       });
     }
     ));
@@ -215,7 +220,9 @@ class _ResultsState extends State<ResultsPage> {
                     scrollDirection: Axis.vertical,
                     itemCount: _filtered_experiments.length,
                       itemBuilder: (context, index) {
-                    return Container(
+                      return GestureDetector(
+                        onTap: () {_navigateToElementScreen(context, index);},
+                        child: Container(
                       padding: EdgeInsets.only(left: 22, right: 11),
                       height: 80,
                       margin:  EdgeInsets.only(top: index!=0? 39:0),
@@ -250,6 +257,7 @@ class _ResultsState extends State<ResultsPage> {
                           )
                         ],
                       ),
+                        )
                     );
                   })
                   ),
