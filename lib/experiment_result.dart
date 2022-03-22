@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,6 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:neural_project/entities.dart' as entities;
+import 'package:external_path/external_path.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:path_provider/path_provider.dart';
 
 class ResultDetailsPage extends StatefulWidget {
   const ResultDetailsPage({Key? key, required this.title, required this.reference}) : super(key: key);
@@ -21,6 +25,62 @@ class _ResultDetailsState extends State<ResultDetailsPage> {
   bool loaded = true;
   entities.Result? _result;
   late entities.Experiment _experiment;
+
+  downloadFiles() async {
+    if(_result==null) return;
+    Directory appDocDir = Directory(await ExternalPath.getExternalStoragePublicDirectory(ExternalPath.DIRECTORY_DOWNLOADS));
+    File downloadToFile = File('${appDocDir.path}/'+ _result!.file);
+    loaded=true;
+    setState(() {
+
+    });
+    try {
+      if (FirebaseAuth.instance.currentUser!=null) {
+        await FirebaseStorage.instance
+            .ref(_result!.file)
+            .writeToFile(downloadToFile).then((p0) {
+              loaded = false;setState(() {
+
+              });
+          _showMyDialog(false, null);
+        });
+      }
+    } on FirebaseException catch (e) {
+      loaded = false;setState(() {
+
+      });
+      _showMyDialog(true, e);
+      print(e);
+    }
+  }
+
+  Future<void> _showMyDialog(bool error, FirebaseException? e) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title:  Text(error? 'Ошибка скачивания': 'Файл сохранен'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(error? 'Файл не был скачан. Код ошибки:' :'Файл сохранен в раздел загрузок на вашем устройстве.'),
+                error? Text(e!.message!=null? e.message!: e.code, style: const TextStyle(color: Colors.red),): const Text('Документ содержит важную информацию по вашему исследованию.')
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Хорошо'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
 
   getResult() async {
@@ -90,7 +150,7 @@ class _ResultDetailsState extends State<ResultDetailsPage> {
               ),
             ),
             Container(
-              width: MediaQuery.of(context).size.width -80,
+              width: MediaQuery.of(context).size.width * 0.85,
               margin: const EdgeInsets.only(bottom: 26),
               child: Row(
                 children: [
@@ -107,7 +167,7 @@ class _ResultDetailsState extends State<ResultDetailsPage> {
               ),
             ),
             Container(
-              width: MediaQuery.of(context).size.width -80,
+              width: MediaQuery.of(context).size.width * 0.85,
               margin: const EdgeInsets.only(bottom: 26),
               child: Row(
                 children: [
@@ -124,7 +184,7 @@ class _ResultDetailsState extends State<ResultDetailsPage> {
               ),
             ),
             Container(
-              width: MediaQuery.of(context).size.width -80,
+              width: MediaQuery.of(context).size.width * 0.85,
               margin: const EdgeInsets.only(bottom: 26),
               child: Row(
                 children: [
@@ -141,7 +201,7 @@ class _ResultDetailsState extends State<ResultDetailsPage> {
               ),
             ),
             Container(
-              width: MediaQuery.of(context).size.width - 80,
+              width: MediaQuery.of(context).size.width * 0.85,
               margin: const EdgeInsets.only(bottom: 29),
               child: Text(
                 "Комментарий",
@@ -149,7 +209,7 @@ class _ResultDetailsState extends State<ResultDetailsPage> {
               ),
             ),
             Container(
-              width: MediaQuery.of(context).size.width - 80,
+              width: MediaQuery.of(context).size.width * 0.85,
               margin: const EdgeInsets.only(bottom: 63),
               child: Text(
                 _result!=null && _result?.comment!=null? _result!.comment!: "Комментариев нет",
@@ -157,11 +217,11 @@ class _ResultDetailsState extends State<ResultDetailsPage> {
               ),
             ),
             Container(
-              width: MediaQuery.of(context).size.width - 80,
+              width: MediaQuery.of(context).size.width * 0.85,
               child: Row (
               children: [
                 OutlinedButton(
-                  onPressed: () => { },
+                  onPressed: () => {downloadFiles() },
                   style: OutlinedButton.styleFrom(
                   minimumSize: const Size(170, 41),
                   side: const BorderSide(

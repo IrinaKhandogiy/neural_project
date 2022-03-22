@@ -70,13 +70,15 @@ class _ResetPasswordState extends State<ResetPasswordPage> {
           Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
-            padding: const EdgeInsets.only(left: 38, right: 38, top: 109),
+            padding: const EdgeInsets.only( top: 109),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text("Восстановление пароля",
                 style: GoogleFonts.openSans(fontSize: 24, fontWeight: FontWeight.w700, color: Colors.white)),
-                CupertinoFormRow(
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.85,
+                child: CupertinoFormRow(
                   padding: const EdgeInsets.only(top: 62),
                     child: CupertinoTextField(
                         textInputAction: TextInputAction.next,
@@ -100,11 +102,16 @@ class _ResetPasswordState extends State<ResetPasswordPage> {
                     ),
                     error: Text(isEmailValid? "": emailError),
                   ),
-                   Text("На вашу почту будет отправлено письмо для сброса пароля",
-                  style: GoogleFonts.openSans(fontSize: 12, fontWeight: FontWeight.w300, color: Colors.white),),
+                ),
+                   SizedBox(
+                     width: MediaQuery.of(context).size.width * 0.85,
+                     child: Text("На вашу почту будет отправлено письмо для сброса пароля",
+                       style: GoogleFonts.openSans(fontSize: 12, fontWeight: FontWeight.w300, color: Colors.white),),
+                    ),
+
                 Container(
                   margin: const EdgeInsets.only(top: 48),
-                  width: MediaQuery.of(context).size.width - 38*2,
+                  width: MediaQuery.of(context).size.width * 0.85,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -125,7 +132,7 @@ class _ResetPasswordState extends State<ResetPasswordPage> {
                       ),
                       OutlinedButton(
                         onPressed: () => {_navigateToAuthScreen(context)},
-                        child:  Text("Воти",
+                        child:  Text("Войти",
                             style: GoogleFonts.openSans(fontSize: 12, fontWeight: FontWeight.w600, color: const  Color(0xFFE5E5E5))
                         ),
                         style: OutlinedButton.styleFrom(

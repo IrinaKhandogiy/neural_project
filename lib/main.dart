@@ -154,7 +154,7 @@ class _AuthPageState extends State<AuthPage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Container(
-            padding: const EdgeInsets.only(left: 39, right: 39),
+            padding: const EdgeInsets.only(left: 20, right: 20),
             child: Column(
             children: [
             Text(
@@ -236,11 +236,12 @@ class _AuthPageState extends State<AuthPage> {
                     ),
                   )
                   ),
+                  Spacer(),
                   CupertinoButton(child: Text(
                     "Восстановить пароль",
                     style: GoogleFonts.openSans(fontSize: 14, fontWeight: FontWeight.w400, color: const Color.fromRGBO(255, 255, 255, 0.75)),
                   ), onPressed: () => {_navigateToResetPasswordScreen(context)},
-                    padding: const EdgeInsets.only(left: 51),
+
                   )
                 ],
               ),
