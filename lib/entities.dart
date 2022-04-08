@@ -25,5 +25,4 @@ class User {
   String? second_name;
 
   User(this.uid, this.first_name, this.last_name, this.second_name);
-
 }

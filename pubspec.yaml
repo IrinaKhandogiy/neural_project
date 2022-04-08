@@ -45,6 +45,10 @@ dependencies:
   cloud_firestore: ^3.1.10
   shared_preferences: ^2.0.13
   flutter_svg: ^1.0.3
+  carousel_slider: ^4.0.0
+  simple_animations: ^4.0.1
+  introduction_screen: ^1.0.9
+  pausable_timer: ^1.0.0+4
 
 dev_dependencies:
   flutter_test:
@@ -72,6 +76,14 @@ flutter:
   assets:
     - assets/background_image.png
     - assets/bubbles.png
+    - assets/testing_rules/1.jpg
+    - assets/testing_rules/2.jpg
+    - assets/testing_rules/3.jpg
+    - assets/testing_rules/sticker.png
+    - assets/usage/Group 22.png
+    - assets/usage/image 5.png
+    - assets/usage/image 6.png
+    - assets/usage/image 7.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
